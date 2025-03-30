@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-qvl63x9)2wf_052g%gnu1eviu+jvytm062ia+n23of0zgis3^t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["condoflow.onrender.com"]
 
 
 # Application definition
