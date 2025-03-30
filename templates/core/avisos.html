@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/avisos.css' %}">
+    <title>Avisos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #ccc;
+    }
+        /* Oculta o formulário por padrão */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+        {% if user.is_superuser %}
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+        {% endif %}
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li class="logout-item">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+    
+<div class="container">
+    <h1>Avisos</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Texto</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="notice-list">
+            {% for aviso in avisos %}
+                <tr class="notice-item" data-id="{{ aviso.id }}">
+                    <td>{{ aviso.titulo }}</td>
+                    <td>{{ aviso.texto }}</td>
+                    <td class="justify-content-center text-center"style="width: 120px;">
+                        {% if user.is_superuser %}
+                            <button onclick="window.location.href='{% url 'editar_aviso' aviso.id %}'" class="btn btn-warning btn-sm" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button onclick="window.location.href='{% url 'excluir_aviso' aviso.id %}'" class="btn btn-danger btn-sm" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">Não há avisos no momento.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if user.is_superuser %}
+        <button id="add-notice-btn" class="btn btn-success">+ Adicionar Aviso</button>
+    {% endif %}
+</div>
+
+{% if user.is_superuser %}
+    <div id="notice-form" class="hidden">
+        <h2>Adicionar Aviso</h2>
+        <form action="{% url 'criar_aviso' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="titulo" placeholder="Título do aviso" required>
+            <textarea name="texto" placeholder="Digite seu aviso" required></textarea>
+            <button type="submit">Salvar</button>
+            <button type="button" id="cancel-notice-btn">Cancelar</button>
+        </form>
+    </div>
+{% endif %}
+
+    <script>
+        // Certifique-se de que o DOM esteja carregado antes de tentar acessar os elementos
+        document.addEventListener("DOMContentLoaded", function() {
+            const addNoticeBtn = document.getElementById('add-notice-btn');
+            const noticeForm = document.getElementById('notice-form');
+            const cancelNoticeBtn = document.getElementById('cancel-notice-btn');
+
+            // Adiciona evento de clique para mostrar/ocultar o formulário
+            if (addNoticeBtn) {
+                addNoticeBtn.addEventListener('click', () => {
+                    noticeForm.classList.toggle('hidden');
+                });
+            }
+
+            // Adiciona evento de clique para cancelar
+            if (cancelNoticeBtn) {
+                cancelNoticeBtn.addEventListener('click', () => {
+                    noticeForm.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/cobranca.css' %}">
+  <script src="{% static 'js/cobranca.js' %}"></script>
+  <title>Tela de Cobrança</title>
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+        {% if user.is_superuser %}
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+        {% endif %}
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li class="logout-item">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<form action="dadosCobrança.php" method="post">
+  <div class="container">
+    <h1>Cobrança de aluguel</h1>
+    
+    <div class="input-container">
+      <label for="moradores">Selecione um Morador:</label>
+      <select id="moradores">
+        <option value="morador1"></option>
+        <option value="todos">Enviar para Todos</option>
+
+        <!-- Pode por mais moradores na lista -->
+      </select>
+    </div>
+    
+    <div class="input-container">
+      <label for="valor">Valor da Cobrança:</label>
+      <input type="text" id="valor">
+    </div>
+    
+    <div class="input-container">
+      <label for="formaPagamento">Forma de Pagamento:</label>
+      <select id="formaPagamento">
+        <option value="pix">PIX</option>
+        <option value="boleto">Boleto</option>
+        <option value="cartao">Cartão</option>
+      </select>
+    </div>
+    
+    <button id="enviarCobranca">Enviar Cobrança</button>
+  </div>
+</form>
+</body>
+</html>

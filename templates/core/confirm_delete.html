@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/avisos.css' %}">
+    <title>Avisos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:40vh; /* Altura da viewport */
+        margin: 0; /* Remove margens padrão */
+        background-color: #ccc; /* Fundo da página */
+    }
+    main {
+        background-color: #ffffff; /* Fundo branco */
+        padding: 20px; /* Espaçamento interno */
+        border-radius: 8px; /* Bordas arredondadas */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        width: 400px; /* Largura do formulário */
+        text-align: center; /* Centraliza o texto */
+    }
+</style>
+
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+        {% if user.is_superuser %}
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+        {% endif %}
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li class="logout-item">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+    
+    <main role="main">
+        <h1>Confirmação de Exclusão</h1>
+        <form method="POST" action="{% url 'excluir_aviso' aviso.id %}">
+            {% csrf_token %}
+            <p>Você tem certeza que deseja excluir o aviso "<strong>{{ aviso.titulo }}</strong>"?</p>
+            <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+            <a href="{% url 'avisos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </main>
+</body>
+</html>
+
+

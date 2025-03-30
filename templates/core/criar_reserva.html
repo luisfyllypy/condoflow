@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Reserva</title>
+  <link rel="stylesheet" href="{% static 'css/reserva.css' %}">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+        {% if user.is_superuser %}
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+        {% endif %}
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li class="logout-item">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+  <div id="container">
+    <h1>Criar Reserva</h1>
+    
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <p class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <form id="reservationForm" method="POST" onsubmit="return confirmReservation(event)">
+        {% csrf_token %}
+        <label for="area">Escolha a Área:</label>
+        <select id="area" name="area" onchange="updateForm()">
+            <option value="">Selecione uma área</option>
+            <option value="churrasqueira">Churrasqueira</option>
+            <option value="piscina">Piscina</option>
+            <option value="quadra">Quadra de Esportes</option>
+            <option value="sala_jogos">Sala de Jogos</option>
+            <option value="salao_festas">Salão de Festas</option>
+        </select>
+
+        <div id="dataReserva" style="display:none;">
+            <label for="data">Data da Reserva:</label>
+            <input type="date" id="data" name="data" >
+        </div>
+
+    <div id="horarioQuadra" class="reservationFields" style="display:none;">
+        <label for="horaQuadra">Escolha o horário:</label>
+        <select id="horaQuadra" name="hora"></select>
+    </div>
+
+    <div id="horarioSalaJogos" class="reservationFields" style="display:none;">
+        <label for="horaSalaJogos">Escolha o horário:</label>
+        <select id="horaSalaJogos" name="hora"></select>
+    </div>
+
+
+
+        <div id="blocoFestas" class="reservationFields" style="display:none;">
+            <label for="bloco">Escolha o bloco:</label>
+            <select id="bloco" name="bloco">
+                <option value="">Selecione um bloco</option>
+                <option value="A">Bloco A</option>
+                <option value="B">Bloco B</option>
+                <option value="C">Bloco C</option>
+                <option value="D">Bloco D</option>
+                <option value="E">Bloco E</option>
+            </select>
+        </div>
+
+        <button type="submit">Reservar</button>
+    </form>
+
+  </div>
+  
+  <script>
+    function updateForm() {
+    const selectedArea = document.getElementById('area').value;
+    const dataField = document.getElementById('dataReserva');
+    const horarioQuadraField = document.getElementById('horarioQuadra');
+    const horarioSalaJogosField = document.getElementById('horarioSalaJogos');
+    const blocoField = document.getElementById('blocoFestas');
+    const horaQuadraSelect = document.getElementById('horaQuadra');
+    const horaSalaJogosSelect = document.getElementById('horaSalaJogos');
+
+    // Resetar campos
+    dataField.style.display = 'none';
+    horarioQuadraField.style.display = 'none';
+    horarioSalaJogosField.style.display = 'none';
+    blocoField.style.display = 'none';
+
+    // Mostrar campos com base na área selecionada
+    if (selectedArea === 'churrasqueira' || selectedArea === 'piscina') {
+        dataField.style.display = 'block'; // Mostrar campo de data
+    } else if (selectedArea === 'quadra') {
+        dataField.style.display = 'block'; // Mostrar campo de data
+        horarioQuadraField.style.display = 'block'; // Mostrar campo de horário
+        populateHourlyOptions(horaQuadraSelect);
+    } else if (selectedArea === 'sala_jogos') {
+        dataField.style.display = 'block'; // Mostrar campo de data
+        horarioSalaJogosField.style.display = 'block'; // Mostrar campo de horário
+        populateHourlyOptions(horaSalaJogosSelect);
+    } else if (selectedArea === 'salao_festas') {
+        dataField.style.display = 'block'; // Mostrar campo de data
+        blocoField.style.display = 'block'; // Mostrar campo de escolha do bloco
+    }
+}
+
+function populateHourlyOptions(selectElement) {
+    selectElement.innerHTML = '';
+
+    // Horários de 00:00 a 23:00
+    for (let hour = 0; hour < 24; hour++) {
+        const formattedHour = hour.toString().padStart(2, '0') + ':00'; // Formata para HH:MM
+        const option = document.createElement('option');
+        option.value = formattedHour;
+        option.textContent = formattedHour;
+        selectElement.appendChild(option);
+    }
+}
+
+  </script>
+</body>
+</html>

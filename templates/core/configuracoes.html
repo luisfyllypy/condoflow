@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+    <link rel="stylesheet" href="{% static 'css/configuracoes.css' %}">
+    <script src="{% static 'js/configuracoes.js' %}"></script>
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a> </li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+        </ul>
+    </nav>
+    <header>
+        <div class="header-background"></div>
+        <h1 class="h1-header">Painel de Configurações</h1>
+    </header>
+    <nav id="config-buttons">
+        <a class="menu-configs" href="/configurações/aparencia/aparencia.html">Aparência</a>
+        <a class="menu-configs" href="/configurações/privacidade_seguranca/ps.html">Privacidade e Segurança</a>
+        <a class="menu-configs" href="/configurações/GerarRelatorio/relatorio.html">Gerar Relatório</a>
+    </nav>
+    <section id="config-panel">
+        <h1>Aparência</h1>
+        <div id="appearance" style="display: none;">
+    <h1>Aparência</h1>
+    <p>Conteúdo relacionado às configurações de aparência.</p>
+</div>
+
+<div id="privacy-security" style="display: none;">
+    <h1>Privacidade e Segurança</h1>
+    <p>Conteúdo relacionado às configurações de privacidade e segurança.</p>
+</div>
+
+<div id="import-data" style="display: none;">
+    <h1>Importar Dados</h1>
+    <p>Conteúdo relacionado à importação de dados.</p>
+</div>
+
+<div id="generate-report" style="display: none;">
+    <h1>Gerar Relatório</h1>
+    <p>Conteúdo relacionado à geração de relatórios.</p>
+</div>
+
+<script>
+    function hideAllConfigurations() {
+        const configurationElements = document.querySelectorAll('.config-panel');
+        for (const element of configurationElements) {
+            element.style.display = 'none';
+        }
+    }
+
+    function showAppearance() {
+        hideAllConfigurations();
+        document.getElementById("appearance").style.display = "block";
+    }
+
+    function showPrivacySecurity() {
+        hideAllConfigurations();
+        document.getElementById("privacy-security").style.display = "block";
+    }
+
+    function showImportData() {
+        hideAllConfigurations();
+        document.getElementById("import-data").style.display = "block";
+    }
+
+    function showGenerateReport() {
+        hideAllConfigurations();
+        document.getElementById("generate-report").style.display = "block";
+    }
+</script>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>

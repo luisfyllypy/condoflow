@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas de Áreas de Lazer</title>
+  <link rel="stylesheet" href="{% static 'css/reserva.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <script src="{% static 'js/reserva.js' %}"></script>
+  
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+        {% if user.is_superuser %}
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+        {% endif %}
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li class="logout-item">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+  <div id="container">
+    <h1>Reservas de Áreas de Lazer</h1>
+    <button class="botao-reserva" onclick="location.href='{% url 'criar_reserva' %}'">Reserve Já!</button>
+    
+  {% for area, reservas in reservas_por_area.items %}
+    <div class="area-reserva">
+      <h2>{{ area }}</h2>
+      
+      {% if reservas %}
+        <ul>
+          {% for reserva in reservas %}
+            <li>
+              Data: {{ reserva.data }}<br>
+              {% if reserva.hora %}
+                Horário: {{ reserva.hora }}<br>
+              {% endif %}
+              Reservado por: {{ reserva.usuario_nome }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Não há reservas para esta área.</p>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+  </div>
+</body>
+</html>

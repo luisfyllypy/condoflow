@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ccc;
+}
+
+#side-bar {
+    width: auto;
+    height: 100%;
+    background-color: #151d3b;
+    position: fixed;
+    top: 0;
+    left: -60px;
+    transition: left 0.3s;
+}
+
+#side-bar.active {
+    left: 0;
+}
+
+#side-bar:hover {
+    left: 0;
+}
+
+#side-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#side-bar ul li {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#side-bar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+#side-bar ul li a:hover {
+    background-color: #64ccc5;
+}
+
+.container {
+    display: flex;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+    flex: 1;
+    margin-right: 20px;
+}
+
+#morador-list {
+    list-style: none;
+    padding: 0;
+}
+
+#morador-list li {
+    margin-bottom: 10px;
+}
+
+#morador-list a {
+    text-decoration: none;
+    color: #3498db;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 2;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+#info {
+    display: none;
+}
+
+.user-list {
+    flex: 2;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+h1, h2 {
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #151d3b;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #64ccc5;
+}
+
+.btn-primary {
+    background-color: #151d3b;
+}
+
+.btn-primary:hover {
+    background-color: #64ccc5;
+}
+button {
+    color: #fff;
+    background-color: #151d3b;
+}
+.logout-icon {
+    background: none;  /* Remove o fundo */
+    border: none;      /* Remove a borda */
+    padding: 0;        /* Remove o padding */
+    cursor: pointer;  /* Adiciona cursor de clique */
+}
+
+.logout-icon i {
+    font-size: 24px;   /* Ajuste o tamanho do ícone */
+    color: #151d3b;    /* Cor do ícone */
+    transition: color 0.3s; /* Transição de cor */
+}
+
+.logout-icon:hover i {
+    color: #64ccc5;    /* Cor do ícone ao passar o mouse */
+}

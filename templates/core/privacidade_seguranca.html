@@ -1,0 +1,420 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy and Security Settings</title>
+    <style>
+ body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ccc;
+  }
+  
+  #side-bar {
+    width: auto;
+    height: 100%;
+    background-color:  #151d3b;
+    position: fixed;
+    top: 0;
+    left: -60px;
+    transition: left 0.3s;
+  
+  }
+  
+  #side-bar.active {
+    left: 0;
+  }
+  
+  #side-bar:hover {
+    left: 0;
+  }
+  
+  #side-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  #side-bar ul li {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  #side-bar ul li a {
+    color: #f6fffe;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  #side-bar ul li a:hover {
+    background-color: #64ccc5;
+  }
+
+header {
+    position: relative;
+    text-align: center;
+    padding: 10px 0;
+    color: white;
+    
+}
+
+.header-background {
+    background-color: #64ccc5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 94%;
+    height: 100px; /* Ajuste a altura conforme necessário */
+    z-index: -1;
+    margin-left: 77px;
+    border-radius: 10px;
+    margin-top: -20px;
+}
+
+#config-buttons {
+    text-align: center;
+    background-color: #151d3b;
+    padding: 10px 0;
+    border-radius: 25px;
+    width: 90%;
+    margin-left: 100px;
+}
+
+#config-buttons button {
+    background-color: transparent;
+    color: #f6fffe;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin: 0 10px;
+}
+
+#config-buttons button:hover {
+    background-color: #64ccc5;
+}
+
+/* Adicione essas regras CSS para a nova navegação */
+.menu-configs {
+  color: #f6fffe;
+  text-decoration: none;
+  display: inline-block; /* Alterado para inline-block */
+  padding: 10px;
+  transition: background-color 0.3s;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.menu-configs:hover {
+  background-color: #64ccc5;
+}
+
+#config-panel {
+    left: 200px;
+    padding: 20px;
+    display: none;
+}
+.container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a> </li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+            <li><a href="{% url 'registros' %}">Registros</a></li>
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+        </ul>
+    </nav>
+    <header>
+        <div class="header-background"></div>
+        <h1 class="h1-header">Painel de Configurações</h1>
+    </header>
+    <nav id="config-buttons">
+        <a class="menu-configs" href="/configurações/aparencia/aparencia.html">Aparência</a>
+        <a class="menu-configs" href="/configurações/privacidade_seguranca/ps.html">Privacidade e Segurança</a>
+        <a class="menu-configs" href="/configurações/GerarRelatorio/relatorio.html">Gerar Relatório</a>
+    </nav>
+    <div class="container">
+        <h1>Configurações de Privacidade e Segurança</h1>
+
+        <h2>Configurações de Privacidade</h2>
+        <label for="privacidadePerfil">Privacidade do Perfil:</label>
+        <select id="privacidadePerfil">
+            <option value="publico">Público</option>
+            <option value="privado">Privado</option>
+        </select>
+        
+        <h2>Preferências de Compartilhamento de Dados</h2>
+        <label for="compartilhamentoDados">Compartilhamento de Dados:</label>
+        <input type="checkbox" id="compartilhamentoDados"> Permitir compartilhamento de dados com terceiros
+        
+        <h2>Senha e Autenticação</h2>
+        <label for="alterarSenha">Alterar Senha:</label>
+        <input type="password" id="alterarSenha">
+        <button id="botaoAlterarSenha">Alterar Senha</button>
+        
+        <label for="autenticacaoDoisFatores">Autenticação de Dois Fatores:</label>
+        <input type="checkbox" id="autenticacaoDoisFatores"> Ativar autenticação de dois fatores
+        
+        <h2>Gestão de Dados</h2>
+        <button id="botaoAcessarDados">Acessar Meus Dados</button>
+        <button id="botaoExcluirConta">Excluir Minha Conta</button>
+        
+        <h2>Notificações</h2>
+        <label for="preferenciasNotificacoes">Preferências de Notificação:</label>
+        <input type="checkbox" id="preferenciasNotificacoes"> Receber notificações por e-mail
+        
+        <h2>Termos e Política de Privacidade</h2>
+        <a href="/termos-de-servico.html">Termos de Serviço</a>
+        <a href="/politica-de-privacidade.html">Política de Privacidade</a>
+        </div>
+        
+
+    <script>
+        // Your JavaScript functions go here
+        document.getElementById("changePasswordButton").addEventListener("click", changePassword);
+        document.getElementById("accessDataButton").addEventListener("click", accessData);
+        document.getElementById("deleteAccountButton").addEventListener("click", deleteAccount);
+
+        function changePassword() {
+            // Implement password change logic here
+        }
+
+        function accessData() {
+            // Implement data access logic here
+        }
+
+        function deleteAccount() {
+            // Implement account deletion logic here
+        }
+    </script>
+</body>
+</html>
+=======
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy and Security Settings</title>
+    <style>
+ body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ccc;
+  }
+  
+  #side-bar {
+    width: auto;
+    height: 100%;
+    background-color:  #151d3b;
+    position: fixed;
+    top: 0;
+    left: -60px;
+    transition: left 0.3s;
+  
+  }
+  
+  #side-bar.active {
+    left: 0;
+  }
+  
+  #side-bar:hover {
+    left: 0;
+  }
+  
+  #side-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  #side-bar ul li {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  #side-bar ul li a {
+    color: #f6fffe;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  #side-bar ul li a:hover {
+    background-color: #64ccc5;
+  }
+
+header {
+    position: relative;
+    text-align: center;
+    padding: 10px 0;
+    color: white;
+    
+}
+
+.header-background {
+    background-color: #64ccc5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 94%;
+    height: 100px; /* Ajuste a altura conforme necessário */
+    z-index: -1;
+    margin-left: 77px;
+    border-radius: 10px;
+    margin-top: -20px;
+}
+
+#config-buttons {
+    text-align: center;
+    background-color: #151d3b;
+    padding: 10px 0;
+    border-radius: 25px;
+    width: 90%;
+    margin-left: 100px;
+}
+
+#config-buttons button {
+    background-color: transparent;
+    color: #f6fffe;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin: 0 10px;
+}
+
+#config-buttons button:hover {
+    background-color: #64ccc5;
+}
+
+/* Adicione essas regras CSS para a nova navegação */
+.menu-configs {
+  color: #f6fffe;
+  text-decoration: none;
+  display: inline-block; /* Alterado para inline-block */
+  padding: 10px;
+  transition: background-color 0.3s;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 0 10px;
+  text-align: center;
+}
+
+.menu-configs:hover {
+  background-color: #64ccc5;
+}
+
+#config-panel {
+    left: 200px;
+    padding: 20px;
+    display: none;
+}
+.container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a> </li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+            <li><a href="{% url 'registros' %}">Registros</a></li>
+            <li><a href="{% url 'cobranca' %}">Contábil</a></li>
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li><a href="{% url 'configuracoes' %}">Configurações</a></li>
+        </ul>
+    </nav>
+    <header>
+        <div class="header-background"></div>
+        <h1 class="h1-header">Painel de Configurações</h1>
+    </header>
+    <nav id="config-buttons">
+        <a class="menu-configs" href="/configurações/aparencia/aparencia.html">Aparência</a>
+        <a class="menu-configs" href="/configurações/privacidade_seguranca/ps.html">Privacidade e Segurança</a>
+        <a class="menu-configs" href="/configurações/GerarRelatorio/relatorio.html">Gerar Relatório</a>
+    </nav>
+    <div class="container">
+        <h1>Configurações de Privacidade e Segurança</h1>
+
+        <h2>Configurações de Privacidade</h2>
+        <label for="privacidadePerfil">Privacidade do Perfil:</label>
+        <select id="privacidadePerfil">
+            <option value="publico">Público</option>
+            <option value="privado">Privado</option>
+        </select>
+        
+        <h2>Preferências de Compartilhamento de Dados</h2>
+        <label for="compartilhamentoDados">Compartilhamento de Dados:</label>
+        <input type="checkbox" id="compartilhamentoDados"> Permitir compartilhamento de dados com terceiros
+        
+        <h2>Senha e Autenticação</h2>
+        <label for="alterarSenha">Alterar Senha:</label>
+        <input type="password" id="alterarSenha">
+        <button id="botaoAlterarSenha">Alterar Senha</button>
+        
+        <label for="autenticacaoDoisFatores">Autenticação de Dois Fatores:</label>
+        <input type="checkbox" id="autenticacaoDoisFatores"> Ativar autenticação de dois fatores
+        
+        <h2>Gestão de Dados</h2>
+        <button id="botaoAcessarDados">Acessar Meus Dados</button>
+        <button id="botaoExcluirConta">Excluir Minha Conta</button>
+        
+        <h2>Notificações</h2>
+        <label for="preferenciasNotificacoes">Preferências de Notificação:</label>
+        <input type="checkbox" id="preferenciasNotificacoes"> Receber notificações por e-mail
+        
+        <h2>Termos e Política de Privacidade</h2>
+        <a href="/termos-de-servico.html">Termos de Serviço</a>
+        <a href="/politica-de-privacidade.html">Política de Privacidade</a>
+        </div>
+        
+
+    <script>
+        // Your JavaScript functions go here
+        document.getElementById("changePasswordButton").addEventListener("click", changePassword);
+        document.getElementById("accessDataButton").addEventListener("click", accessData);
+        document.getElementById("deleteAccountButton").addEventListener("click", deleteAccount);
+
+        function changePassword() {
+            // Implement password change logic here
+        }
+
+        function accessData() {
+            // Implement data access logic here
+        }
+
+        function deleteAccount() {
+            // Implement account deletion logic here
+        }
+    </script>
+</body>
+</html>
+

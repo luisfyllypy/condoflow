@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <h2>Lista de Usuários</h2>
+  <a href="{% url 'user_create' %}">Criar Novo Usuário</a>
+  <ul id="user-list">
+    {% for user in users %}
+      <li>
+        {{ user.username }} - {{ user.get_user_type_display }}
+        <button class="edit-btn" data-id="{{ user.id }}">Editar</button>
+        <button class="delete-btn" data-id="{{ user.id }}">Excluir</button>
+      </li>
+    {% endfor %}
+  </ul>
+  <!-- Modal de Edição -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Editar Usuário</h2>
+      <form id="edit-form" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="edit-user-id">
+        <label for="edit-username">Nome de Usuário:</label>
+        <input type="text" id="edit-username" name="username">
+        <label for="edit-email">Email:</label>
+        <input type="email" id="edit-email" name="email">
+        <label for="edit-user-type">Tipo de Usuário:</label>
+        <select id="edit-user-type" name="user_type">
+          <option value="S">Síndico</option>
+          <option value="M">Morador</option>
+        </select>
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
+  </div>
+  <!-- Modal de Exclusão -->
+  <div id="delete-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Confirmar Exclusão</h2>
+      <p>Tem certeza que deseja excluir este usuário?</p>
+      <button id="confirm-delete-btn">Confirmar</button>
+      <button id="cancel-delete-btn">Cancelar</button>
+    </div>
+  </div>
+  <link rel="stylesheet" href="{% static 'css/user.css' %}">
+  <script src="{% static 'js/user.js' %}"></script>
+{% endblock %}
+
+
+

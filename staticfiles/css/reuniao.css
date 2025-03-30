@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ccc;
+}
+
+#side-bar {
+  width: auto;
+  height: 100%;
+  background-color: #151d3b;
+  position: fixed;
+  top: 0;
+  left: -60px;
+  transition: left 0.3s;
+
+}
+
+#side-bar.active {
+  left: 0;
+}
+
+#side-bar:hover {
+  left: 0;
+}
+
+#side-bar ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+#side-bar ul li {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#side-bar ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+#side-bar ul li a:hover {
+  background-color: #64ccc5;
+}
+  
+  #container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #151d3b;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+
+input[type="text"], select, input[type="datetime-local"], input[type="checkbox"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #151d3b;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  button:hover {
+    background-color: #64ccc5;
+  }
+  

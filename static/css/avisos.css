@@ -1,0 +1,173 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ccc;
+  }
+  
+  #side-bar {
+    width: auto;
+    height: 100%;
+    background-color: #151d3b;
+    position: fixed;
+    top: 0;
+    left: -60px;
+    transition: left 0.3s;
+  
+  }
+  
+  #side-bar.active {
+    left: 0;
+  }
+  
+  #side-bar:hover {
+    left: 0;
+  }
+  
+  #side-bar ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  #side-bar ul li {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  #side-bar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  #side-bar ul li a:hover {
+    background-color: #64ccc5;
+  }
+
+.content {
+    margin-left: 200px;
+    padding: 20px;
+}
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notices {
+    margin-top: 20px;
+}
+
+#add-notice-btn {
+    display: block;
+    margin-top: 20px;
+    background-color: #151d3b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #aaa;
+}
+
+#save-notice-btn{
+    margin-left: 10px;
+    margin-top: 20px;
+    background-color: #151d3b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#notice-input{
+    border-radius: 5px;
+    width: 20%;
+    height: 30px;
+}
+#notice-form {
+    max-width: 600px; /* Largura máxima do formulário */
+    margin: 20px auto; /* Margem automática para centralizar horizontalmente */
+    padding: 20px; /* Preenchimento interno */
+    background-color: #fff; /* Fundo branco */
+    border-radius: 5px; /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para o formulário */
+}
+
+#notice-form h2 {
+    margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+#notice-form input,
+#notice-form textarea {
+    width: calc(100% - 20px); /* Largura total, considerando o padding */
+    margin-bottom: 10px; /* Espaço entre os campos */
+    padding: 10px; /* Preenchimento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    border: 1px solid #ccc; /* Borda padrão */
+}
+
+#notice-form button {
+    width: end; /* Largura total do botão */
+    background-color: #151d3b; /* Cor de fundo do botão */
+    color: #fff; /* Cor do texto */
+    border: none; /* Sem borda */
+    padding: 10px; /* Preenchimento interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de ponteiro */
+    margin-bottom: 10px;
+
+}
+
+#notice-form button:hover {
+    background-color: #ffffff; /* Cor de fundo ao passar o mouse */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #151d3b;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #64ccc5;
+}

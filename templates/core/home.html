@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <title>Menu Bar</title>
+</head>
+<body>
+    <nav id="side-bar">
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'avisos' %}">Avisos</a></li>
+        {% if user.is_superuser %}
+            <li><a href="{% url 'registros' %}">Usuários</a></li>
+        {% endif %}
+            <li><a href="{% url 'reuniao' %}">Reuniões</a></li>
+            <li><a href="{% url 'reserva' %}">Reservas</a></li>
+            <li class="logout-item">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+    <div class="content">
+        <h1>Gestão de condominios e apartamentos CondoFlow</h1>
+        <p>Oferecendo serviços desde 2023</p>
+        <p>Socializando condomínio e moradores.</p>
+
+        <div class="main-grid">
+            <div class="quadrant" id="pessoa">
+                <h2>PESSOA</h2>
+                <p>Moradores: <span id="moradores">0</span></p>
+            </div>
+            <div class="quadrant" id="funcionarios">
+                <h2>FUNCIONÁRIOS</h2>
+                <p>Total: <span id="totalFuncionarios">0</span></p>
+                <p>Ativos: <span id="funcionariosAtivos">0</span></p>
+            </div>
+            <div class="quadrant" id="veiculos">
+                <h2>VEÍCULOS</h2>
+                <p>Vagas Restantes: <span id="vagasRestantes">0</span></p>
+                <p>Quantidade de veículos: <span id="totalVeiculos">0</span></p>
+            </div>
+            <div class="quadrant" id="lembretes">
+                <h2>LEMBRETES</h2>
+                <ul id="lembretes-list">
+                    <li><a href="#">Marcar reunião</a></li>
+                    <li><a href="{% url 'avisos' %}">Enviar aviso</a></li>
+                    <li><a href="#">Conferir reforma</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
