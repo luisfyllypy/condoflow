@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-qvl63x9)2wf_052g%gnu1eviu+jvytm062ia+n23of0zgis3^t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["condoflow.onrender.com"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -122,10 +122,11 @@ USE_TZ = True
 
 # Configurações de arquivos estáticos
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Caminho para a pasta 'static'
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Configuração de mídia (opcional, se precisar para uploads)
 MEDIA_URL = '/media/'
