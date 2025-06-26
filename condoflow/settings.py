@@ -136,3 +136,9 @@ LOGIN_REDIRECT_URL = 'home'
 
 # Qual a URL para a qual usuários não logados são redirecionados
 LOGIN_URL = 'login'
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
