@@ -1,0 +1,127 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Editar Endereço
+    {% else %}
+        Cadastrar Novo Endereço
+    {% endif %}
+    | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Cabeçalho Dinâmico -->
+    <div class="pb-3 mb-4 border-bottom">
+        <h1 class="h2">
+            {% if form.instance.pk %}
+                <i class="bi bi-pencil-square"></i> Editar Endereço
+            {% else %}
+                <i class="bi bi-plus-circle-fill"></i> Cadastrar Novo Endereço: {{ tipo_display|title }}
+            {% endif %}
+        </h1>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Campos Comuns a todos os Endereços -->
+                <fieldset>
+                    <legend class="h5">Informações Gerais</legend>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_numero" class="form-label">Número</label>
+                            {{ form.numero }}
+                        </div>
+                    </div>
+                </fieldset>
+                
+                <hr>
+
+                <!-- Seção de Campos para CASA -->
+                {% if tipo == 'casa' %}
+                <fieldset>
+                    <legend class="h5">Detalhes da Casa</legend>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_rua" class="form-label">Rua</label>
+                            {{ form.rua }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_conjunto" class="form-label">Conjunto</label>
+                            {{ form.conjunto }}
+                        </div>
+                    </div>
+                </fieldset>
+                {% endif %}
+
+                <!-- Seção de Campos para APARTAMENTO -->
+                {% if tipo == 'apartamento' %}
+                <fieldset>
+                    <legend class="h5">Detalhes do Apartamento</legend>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_andar" class="form-label">Andar</label>
+                            {{ form.andar }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_predio" class="form-label">Prédio/Bloco</label>
+                            {{ form.predio }}
+                        </div>
+                    </div>
+                </fieldset>
+                {% endif %}
+
+                <!-- Seção de Campos para ÁREA COMUM -->
+                {% if tipo == 'area_comum' %}
+                <fieldset>
+                    <legend class="h5">Detalhes da Área Comum</legend>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_nome" class="form-label">Nome da Área</label>
+                            {{ form.nome }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_local" class="form-label">Localização</label>
+                            {{ form.local }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_lotacao" class="form-label">Lotação Máxima</label>
+                            {{ form.lotacao }}
+                        </div>
+                        <div class="col-md-6 mb-3 d-flex align-items-center">
+                            <div class="form-check form-switch mt-3">
+                                {{ form.reservavel }}
+                                <label class="form-check-label" for="id_reservavel">É Reservável?</label>
+                            </div>
+                        </div>
+                         <div class="col-12 mb-3">
+                            <label for="id_descricao" class="form-label">Descrição</label>
+                            {{ form.descricao }}
+                        </div>
+                    </div>
+                </fieldset>
+                {% endif %}
+
+                <!-- Botões de Ação -->
+                <div class="pt-3 mt-3 border-top text-end">
+                    <a href="{% url 'gestao_enderecos' %}" class="btn btn-secondary">
+                        <i class="bi bi-x-lg"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        {% if form.instance.pk %}
+                            <i class="bi bi-check-lg"></i> Atualizar Endereço
+                        {% else %}
+                            <i class="bi bi-check-lg"></i> Salvar Endereço
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

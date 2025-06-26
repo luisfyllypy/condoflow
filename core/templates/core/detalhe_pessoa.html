@@ -1,0 +1,150 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+    Detalhes de {{ pessoa.nome_completo|default:"Pessoa" }} | {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Cabeçalho da Página e Ações -->
+    <div class="d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom">
+        <div>
+            <h1 class="h2 mb-0">{{ pessoa.nome_completo|default:"Nome da Pessoa" }}</h1>
+            <p class="text-muted mb-0">Perfil completo e histórico de registros.</p>
+        </div>
+        <div class="btn-group" role="group">
+            <a href="#" class="btn btn-primary">
+                <i class="bi bi-pencil-fill"></i> Editar Pessoa
+            </a>
+            <a href="#" class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i> Excluir Pessoa
+            </a>
+            <a href="{% url 'gestao_pessoas' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar para a Lista
+            </a>
+        </div>
+    </div>
+
+    <!-- Seção de Dados Principais -->
+    <div class="row g-4">
+        <!-- Card de Dados Pessoais -->
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-person-vcard-fill"></i> Dados Pessoais</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>CPF:</strong> {{ pessoa.cpf|default:"000.000.000-00" }}</li>
+                        <li class="list-group-item"><strong>Data de Nascimento:</strong> {{ pessoa.data_nascimento|date:"d/m/Y"|default:"01/01/2000" }}</li>
+                        <li class="list-group-item"><strong>E-mail:</strong> {{ pessoa.email|default:"email@exemplo.com" }}</li>
+                        <li class="list-group-item">
+                            <strong>Telefones:</strong>
+                            {# Loop para os telefones da pessoa #}
+                            {% for telefone in pessoa.telefones.all %}
+                                <span class="badge bg-secondary">{{ telefone.numero }} ({{ telefone.get_tipo_display }})</span>
+                            {% empty %}
+                                <span class="text-muted">Nenhum telefone cadastrado.</span>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Papéis e Status -->
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-person-badge-fill"></i> Papéis e Status</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Papéis Atuais</h6>
+                    <p>
+                        {% if pessoa.is_morador %}<span class="badge fs-6 text-bg-success">Morador</span>{% endif %}
+                        {% if pessoa.is_proprietario %}<span class="badge fs-6 text-bg-primary">Proprietário</span>{% endif %}
+                        {% if pessoa.is_funcionario %}<span class="badge fs-6 text-bg-info">Funcionário</span>{% endif %}
+                        {% if not pessoa.is_morador and not pessoa.is_proprietario and not pessoa.is_funcionario %}
+                            <span class="text-muted">Nenhum papel ativo.</span>
+                        {% endif %}
+                    </p>
+                    <hr>
+                    <h6>Acesso ao Sistema</h6>
+                    {% if pessoa.usuario %}
+                        <p class="text-success"><i class="bi bi-check-circle-fill"></i> Usuário ativo no sistema.</p>
+                    {% else %}
+                        <p class="text-danger"><i class="bi bi-x-circle-fill"></i> Não possui acesso ao sistema.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Históricos de Registros -->
+    <h3 class="h4 mt-5 mb-3 border-bottom pb-2">Histórico de Registros</h3>
+    <div class="row g-4">
+        <!-- Histórico de Morador -->
+        <div class="col-md-6">
+            <h6><i class="bi bi-house-door-fill"></i> Como Morador(a)</h6>
+            <ul class="list-group">
+                {% for registro in pessoa.registros_morador.all %}
+                    <li class="list-group-item">
+                        <strong>Endereço:</strong> {{ registro.endereco }} <br>
+                        <strong>Período:</strong> {{ registro.inicio|date:"d/m/Y" }} até {{ registro.fim|date:"d/m/Y"|default:"Presente" }}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhum registro como morador.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Histórico de Proprietário -->
+        <div class="col-md-6">
+            <h6><i class="bi bi-key-fill"></i> Como Proprietário(a)</h6>
+            <ul class="list-group">
+                {% for registro in pessoa.registros_proprietario.all %}
+                    <li class="list-group-item">
+                        <strong>Endereço:</strong> {{ registro.endereco }} <br>
+                        <strong>Período:</strong> {{ registro.data_compra|date:"d/m/Y" }} até {{ registro.data_venda|date:"d/m/Y"|default:"Presente" }}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhum registro como proprietário.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Histórico de Funcionário -->
+        <div class="col-md-6">
+            <h6><i class="bi bi-briefcase-fill"></i> Como Funcionário(a)</h6>
+            <ul class="list-group">
+                {% for registro in pessoa.registros_funcionario.all %}
+                    <li class="list-group-item">
+                        <strong>Cargo:</strong> {{ registro.get_cargo_display }} <br>
+                        <strong>Período:</strong> {{ registro.data_admissao|date:"d/m/Y" }} até {{ registro.data_demissao|date:"d/m/Y"|default:"Presente" }}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhum registro como funcionário.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Histórico de Visitante -->
+        <div class="col-md-6">
+            <h6><i class="bi bi-person-bounding-box"></i> Como Visitante</h6>
+            <ul class="list-group">
+                {% for registro in pessoa.visitas_feitas.all %}
+                    <li class="list-group-item">
+                        <strong>Data:</strong> {{ registro.data_chegada|date:"d/m/Y \à\s H:i" }} <br>
+                        <strong>Destino:</strong> {{ registro.endereco_destino }} <br>
+                        <strong>Autorizado por:</strong> {{ registro.morador_responsavel.pessoa.nome_completo }}
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhum registro como visitante.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

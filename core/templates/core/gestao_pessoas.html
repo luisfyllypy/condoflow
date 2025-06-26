@@ -1,0 +1,143 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Gestão de Pessoas | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Cabeçalho e Botão de Ação -->
+    <div class="d-flex justify-content-between align-items-center pb-3 mb-4 border-bottom">
+        <h1 class="h2">Gestão de Pessoas</h1>
+        <a href="#" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Cadastrar Nova Pessoa
+        </a>
+    </div>
+
+    <!-- Filtros de Busca (com as novas opções) -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-funnel-fill"></i> Filtros e Ordenação</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" action="">
+                <div class="row g-3">
+                    <!-- Busca por Nome/CPF -->
+                    <div class="col-md-6 col-lg-4">
+                        <label for="busca" class="form-label">Buscar por Nome ou CPF</label>
+                        <input type="text" class="form-control" id="busca" name="busca" placeholder="Digite o nome ou CPF...">
+                    </div>
+                    <!-- Filtro por Papel -->
+                    <div class="col-md-3 col-lg-2">
+                        <label for="papel" class="form-label">Papel</label>
+                        <select class="form-select" id="papel" name="papel">
+                            <option value="">Todos</option>
+                            <option value="morador">Morador</option>
+                            <option value="proprietario">Proprietário</option>
+                            <option value="funcionario">Funcionário</option>
+                            <option value="visitante">Visitante</option>
+                        </select>
+                    </div>
+                    <!-- NOVO: Filtro por Usuário -->
+                    <div class="col-md-3 col-lg-2">
+                        <label for="usuario" class="form-label">Usuário?</label>
+                        <select class="form-select" id="usuario" name="usuario">
+                            <option value="">Todos</option>
+                            <option value="true">Com usuário</option>
+                            <option value="false">Sem usuário</option>
+                        </select>
+                    </div>
+                    <!-- NOVO: Ordenar por Nome -->
+                    <div class="col-md-3 col-lg-2">
+                        <label for="ordenar" class="form-label">Ordenar por</label>
+                        <select class="form-select" id="ordenar" name="ordenar">
+                            <option value="nome_asc">Nome (A-Z)</option>
+                            <option value="nome_desc">Nome (Z-A)</option>
+                        </select>
+                    </div>
+                    <!-- Botão de Ação -->
+                    <div class="col-md-3 col-lg-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-secondary w-100">
+                            <i class="bi bi-search"></i> Aplicar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabela de Pessoas (agora com a classe 'table-striped') -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Papéis</th>
+                    <th scope="col" class="text-center">Usuário?</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Data de Nascimento</th>
+                    <th scope="col">E-mail</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# O loop do Django continua aqui para quando você popular os dados #}
+                {% for pessoa in pessoas %}
+                <tr>
+                    <td>
+                        <a href="{% url 'detalhe_pessoa' pessoa.cpf %}" class="text-decoration-none">
+                            {{ pessoa.nome_completo }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if pessoa.is_morador %}<span class="badge text-bg-success">Morador</span>{% endif %}
+                        {% if pessoa.is_proprietario %}<span class="badge text-bg-primary">Proprietário</span>{% endif %}
+                        {% if pessoa.is_funcionario %}<span class="badge text-bg-info">Funcionário</span>{% endif %}
+                        {% if pessoa.is_visitante %}<span class="badge text-bg-secondary">Visitante</span>{% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if pessoa.usuario %}<i class="bi bi-check-circle-fill text-success" title="Sim"></i>{% else %}<i class="bi bi-x-circle-fill text-danger" title="Não"></i>{% endif %}
+                    </td>
+                    <td>{{ pessoa.cpf }}</td>
+                    <td>{{ pessoa.data_nascimento|date:"d/m/Y" }}</td>
+                    <td>{{ pessoa.email|default:"N/A" }}</td>
+                </tr>
+                {% endfor %}
+
+                <!-- DADOS DE EXEMPLO PARA VISUALIZAÇÃO -->
+                <tr>
+                    <td><a href="{% url 'detalhe_pessoa' %}" class="text-decoration-none">Ana Maria Braga</a></td>
+                    <td><span class="badge text-bg-success">Morador</span> <span class="badge text-bg-primary">Proprietário</span></td>
+                    <td class="text-center"><i class="bi bi-check-circle-fill text-success" title="Sim"></i></td>
+                    <td>111.222.333-44</td>
+                    <td>01/04/1949</td>
+                    <td>ana.maria@email.com</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="text-decoration-none">Carlos Alberto de Nóbrega</a></td>
+                    <td><span class="badge text-bg-info">Funcionário</span></td>
+                    <td class="text-center"><i class="bi bi-check-circle-fill text-success" title="Sim"></i></td>
+                    <td>555.666.777-88</td>
+                    <td>12/03/1936</td>
+                    <td>carlos.alberto@email.com</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="text-decoration-none">Fausto Silva</a></td>
+                    <td><span class="badge text-bg-secondary">Visitante</span></td>
+                    <td class="text-center"><i class="bi bi-x-circle-fill text-danger" title="Não"></i></td>
+                    <td>999.888.777-66</td>
+                    <td>02/05/1950</td>
+                    <td>fausto.silva@email.com</td>
+                </tr>
+                <tr>
+                    <td><a href="#" class="text-decoration-none">Silvio Santos</a></td>
+                    <td><span class="badge text-bg-primary">Proprietário</span></td>
+                    <td class="text-center"><i class="bi bi-x-circle-fill text-danger" title="Não"></i></td>
+                    <td>123.456.789-00</td>
+                    <td>12/12/1930</td>
+                    <td>silvio.santos@email.com</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

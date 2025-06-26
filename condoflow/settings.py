@@ -57,7 +57,7 @@ ROOT_URLCONF = 'condoflow.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,3 +130,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Aponta para o nosso modelo de usuário personalizado
 AUTH_USER_MODEL = 'usuarios.Usuario'
+
+# Para onde redirecionar o usuário APÓS o login bem-sucedido.
+LOGIN_REDIRECT_URL = 'home'
+
+# Qual a URL para a qual usuários não logados são redirecionados
+LOGIN_URL = 'login'

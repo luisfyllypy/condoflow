@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard | {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <!-- Cabeçalho da Página -->
+    <div class="pb-3 mb-4 border-bottom">
+        <h1 class="h2">Dashboard Principal</h1>
+    </div>
+
+    <!-- Seção de Resumo/Alertas -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <h2 class="h5 text-muted">Resumo do Dia</h2>
+        </div>
+        {# Estes dados viriam da sua view. São apenas exemplos. #}
+        <div class="col-md-6 col-lg-3">
+            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                <div><strong>5</strong> Ocorrências abertas</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="bi bi-calendar-check-fill fs-4 me-3"></i>
+                <div><strong>2</strong> Reservas para hoje</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="alert alert-info d-flex align-items-center" role="alert">
+                <i class="bi bi-people-fill fs-4 me-3"></i>
+                <div><strong>8</strong> Visitantes agendados</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="alert alert-secondary d-flex align-items-center" role="alert">
+                <i class="bi bi-envelope-fill fs-4 me-3"></i>
+                <div><strong>3</strong> Novas correspondências</div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Seção de Gestão -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <h2 class="h4 border-bottom pb-2 mb-3">Gestão do Sistema</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column text-center p-4">
+                    <i class="bi bi-people-fill fs-1 text-primary mb-3"></i>
+                    <h5 class="card-title">Gestão de Pessoas</h5>
+                    <p class="card-text text-muted flex-grow-1">Cadastre e gerencie moradores, proprietários, funcionários e visitantes.</p>
+                    <a href="{% url 'gestao_pessoas' %}" class="btn btn-primary mt-auto stretched-link">Acessar Pessoas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column text-center p-4">
+                     <i class="bi bi-geo-alt-fill fs-1 text-primary mb-3"></i>
+                    <h5 class="card-title">Gestão de Endereços</h5>
+                    <p class="card-text text-muted flex-grow-1">Gerencie as casas, apartamentos e áreas comuns do condomínio.</p>
+                    <a href="{% url 'gestao_enderecos' %}" class="btn btn-primary mt-auto stretched-link">Acessar Endereços</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Funcionalidades -->
+    <div class="row g-4">
+        <div class="col-12">
+            <h2 class="h4 border-bottom pb-2 mb-3">Funcionalidades Rápidas</h2>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column text-center p-4">
+                    <i class="bi bi-calendar-plus-fill fs-1 text-success mb-3"></i>
+                    <h5 class="card-title">Fazer Reserva</h5>
+                    <p class="card-text text-muted flex-grow-1">Agende o uso de salões de festa, churrasqueiras e outras áreas.</p>
+                    <a href="#" class="btn btn-success mt-auto stretched-link">Agendar Agora</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column text-center p-4">
+                    <i class="bi bi-exclamation-octagon-fill fs-1 text-warning mb-3"></i>
+                    <h5 class="card-title">Abrir Ocorrência</h5>
+                    <p class="card-text text-muted flex-grow-1">Registre problemas, sugestões ou reclamações para a administração.</p>
+                    <a href="#" class="btn btn-warning mt-auto stretched-link">Registrar Ocorrência</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column text-center p-4">
+                    <i class="bi bi-clock-history fs-1 text-info mb-3"></i>
+                    <h5 class="card-title">Registrar Ponto</h5>
+                    <p class="card-text text-muted flex-grow-1">Funcionários podem registrar o início e o fim de seus turnos de trabalho.</p>
+                    <a href="#" class="btn btn-info mt-auto stretched-link">Marcar Ponto</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
